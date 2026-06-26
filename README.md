@@ -1,3 +1,7 @@
+# Overview
+
+This repository uses two sources of differentially expressed genes in the mouse hippocampus and frontal cortex to look for overlap with lists of genes known to be related to the following psychiatric disorders: autism, schizophrenia, bipolar disorder, and major depressive disorder. 
+
 # DEG data sources
 
 ["A global transcriptional atlas of the effect of acute sleep deprivation in the mouse frontal cortex" ](https://pmc.ncbi.nlm.nih.gov/articles/PMC11402219/)
@@ -16,11 +20,11 @@
 
 ## "A comparison of anatomic and cellular transcriptome structures across 40 human brain diseases"
 
+[A comparison of anatomic and cellular transcriptome structures across 40 human brain diseases](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002058#pbio.3002058.s002)
+
 - Filename: journal.pbio.3002058.s002.xlsx
 
-- Gene list curated from Zeighami, et al 2023: 
-
-https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002058#pbio.3002058.s002
+- Gene list curated from Zeighami, et al 2023
 
 - Includes 40 different brain diseases, gene lists are on "Associated genes" sheet
 
@@ -69,4 +73,12 @@ https://www.nature.com/articles/s41588-026-02638-3
 - Uses a list of MDD risk genes to look at in vivo functions in mice
 
 - Sheet named "Supplementary Table 1" contains list of 112 risk genes
+
+## Future directions
+
+- MDDOmics for MDD data
+
+    - [csuligroup](https://www.csuligroup.com/CellCom/Home)
+
+niagcds.org
 
