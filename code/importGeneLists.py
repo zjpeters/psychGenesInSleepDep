@@ -20,22 +20,22 @@ downregulated genes stored in Table S5, p < 0.1
 dysregulated genes stored in Table S8, p < 0.05
 """
 
-hippDEGsUp = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_degs.xlsx'), sheet_name='Table S2', skiprows=1)
+hippDEGsUp = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_bulkRNASeq_degs.xlsx'), sheet_name='Table S2', skiprows=1)
 
-hippDEGsDown = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_degs.xlsx'), sheet_name='Table S5', skiprows=1)
+hippDEGsDown = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_bulkRNASeq_degs.xlsx'), sheet_name='Table S5', skiprows=1)
 
-hippDEGsDys = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_degs.xlsx'), sheet_name='Table S8', skiprows=1)
+hippDEGsDys = pd.read_excel(os.path.join(rawdata, 'mouse_hippocampus_acute_sd_bulkRNASeq_degs.xlsx'), sheet_name='Table S8', skiprows=1)
 # combine up and downregulated genes into one dataframe
 hippDEGs = pd.concat([hippDEGsUp, hippDEGsDown])
 
 #%% load frontal cortex data
 
-sheetNames = pd.ExcelFile(os.path.join(rawdata, 'mouse_frontal_cortex_acute_sd_degs.xlsx'))
-degDict = {}
+sheetNames = pd.ExcelFile(os.path.join(rawdata, 'mouse_frontal_cortex_acute_sd_snRNASeq_degs.xlsx'))
+degDictFCsnRNASeq = {}
 for cellType in sheetNames.sheet_names:
-    degDict[cellType] = pd.read_excel(os.path.join(rawdata, 'mouse_frontal_cortex_acute_sd_degs.xlsx'), sheet_name=cellType)
+    degDictFCsnRNASeq[cellType] = pd.read_excel(os.path.join(rawdata, 'mouse_frontal_cortex_acute_sd_snRNASeq_degs.xlsx'), sheet_name=cellType)
 
-
+cortDEGs = pd.read_excel(os.path.join(rawdata, 'mouse_frontal_cortex_acute_sd_bulkRNASeq_degs.xlsx'), sheet_name='DGE')
 #%% load ensembl genes and gene counts from original hippocampus data
 bulkGeneList = pd.read_csv(os.path.join(rawdata, 'GSE166831_gene_names.csv'), index_col=0)
 #%% create function for searching list within other list
@@ -93,77 +93,108 @@ for disease in disOfInterest:
     foundGenes = compareGeneLists(hippDEGs['Gene Name'], zeighamiGenes[disease])
     zeighamiInHippDegs[disease] = foundGenes
 
-writer = pd.ExcelWriter(os.path.join(derivatives, 'zeighami_DEG_lists.xlsx'))
+writer = pd.ExcelWriter(os.path.join(derivatives, 'zeighami_hipp_bulkRNASeq_DEG_lists.xlsx'))
 
 for disease in disOfInterest:
-    zInHipDegDiseaseList = pd.DataFrame(zeighamiInHippDegs[disease])
+    zInHipDegDiseaseList = pd.DataFrame(zeighamiInHippDegs[disease], columns=['Gene Name'])
     zInHipDegDiseaseList.to_excel(writer, sheet_name=disease, index=False)
 writer.close()
+
+zeighamiInCortBulkDegs = dict.fromkeys(disOfInterest)
+for disease in disOfInterest:
+    foundGenes = compareGeneLists(cortDEGs['Gene_Name'], zeighamiGenes[disease])
+    zeighamiInCortBulkDegs[disease] = foundGenes
+
+writer = pd.ExcelWriter(os.path.join(derivatives, 'zeighami_cort_bulkRNASeq_DEG_lists.xlsx'))
+
+for disease in disOfInterest:
+    zInCortDegDiseaseList = pd.DataFrame(zeighamiInCortBulkDegs[disease], columns=['Gene Name'])
+    zInCortDegDiseaseList.to_excel(writer, sheet_name=disease, index=False)
+writer.close()
+
 #%% import and check SFARI gene list
 sfariGeneList = pd.read_csv(os.path.join(geneListLocation, 'SFARI-Gene_genes_05-01-2026release_06-13-2026export.csv'))
 
 sfariInHippDegs = compareGeneLists(hippDEGs['Gene Name'], sfariGeneList['gene-symbol'])
-sfariDF = pd.DataFrame(sfariInHippDegs)
-sfariDF.to_excel(os.path.join(derivatives, 'sfari_hipp_DEG_lists.xlsx'))
+sfariHippDF = pd.DataFrame(sfariInHippDegs, columns=['Gene Name'])
+sfariHippDF.to_excel(os.path.join(derivatives, 'sfari_hipp_bulkRNASeq_DEG_lists.xlsx'), index=False)
 
-sfariInCortDegs = dict.fromkeys(degDict.keys())
-for cortLayer in degDict.keys():
-    sfariInCortDegs[cortLayer] = compareGeneLists(degDict[cortLayer]['Gene_Name'], sfariGeneList['gene-symbol'])
+sfariInCortDegs = compareGeneLists(cortDEGs['Gene_Name'], sfariGeneList['gene-symbol'])
+sfariCortDF = pd.DataFrame(sfariInCortDegs, columns=['Gene Name'])
+sfariCortDF.to_excel(os.path.join(derivatives, 'sfari_cort_bulkRNASeq_DEG_lists.xlsx'), index=False)
+
+# looks at snRNASeq
+sfariInCortsnRNASeqDegs = dict.fromkeys(degDictFCsnRNASeq.keys())
+for cortLayer in degDictFCsnRNASeq.keys():
+    sfariInCortsnRNASeqDegs[cortLayer] = compareGeneLists(degDictFCsnRNASeq[cortLayer]['Gene_Name'], sfariGeneList['gene-symbol'])
     
-writer = pd.ExcelWriter(os.path.join(derivatives, 'sfari_cort_DEG_lists.xlsx'))
+writer = pd.ExcelWriter(os.path.join(derivatives, 'sfari_cort_snRNASeq_DEG_lists.xlsx'))
 
-for cortLayer in degDict.keys():
-    sfariInCortDegList = pd.DataFrame(sfariInCortDegs[cortLayer])
+
+for cortLayer in degDictFCsnRNASeq.keys():
+    sfariInCortDegList = pd.DataFrame(sfariInCortsnRNASeqDegs[cortLayer], columns=['Gene Name'])
     sfariInCortDegList.to_excel(writer, sheet_name=cortLayer, index=False)
 writer.close()
 #%% import and check schizophrenia gene list
 schizGeneList = pd.read_csv(os.path.join(geneListLocation, 'INT-17_SCZ_High_Confidence_Gene_List.csv'))
 
 schizGenesInHippDegs = compareGeneLists(hippDEGs['Gene Name'], schizGeneList['sczgenenames'])
-schizDF = pd.DataFrame(schizGenesInHippDegs)
-schizDF.to_excel(os.path.join(derivatives, 'schiz_hipp_DEG_lists.xlsx'))
+schizHippDF = pd.DataFrame(schizGenesInHippDegs, columns=['Gene Name'])
+schizHippDF.to_excel(os.path.join(derivatives, 'schiz_hipp_bulkRNASeq_DEG_lists.xlsx'), index=False)
 
-schizInCortDegs = dict.fromkeys(degDict.keys())
-for cortLayer in degDict.keys():
-    schizInCortDegs[cortLayer] = compareGeneLists(degDict[cortLayer]['Gene_Name'], schizGeneList['sczgenenames'])
+schizGenesInCortDegs = compareGeneLists(cortDEGs['Gene_Name'], schizGeneList['sczgenenames'])
+schizCortDF = pd.DataFrame(schizGenesInCortDegs, columns=['Gene Name'])
+schizCortDF.to_excel(os.path.join(derivatives, 'schiz_cort_bulkRNASeq_DEG_lists.xlsx'), index=False)
+
+schizInCortsnRNASeqDegs = dict.fromkeys(degDictFCsnRNASeq.keys())
+for cortLayer in degDictFCsnRNASeq.keys():
+    schizInCortsnRNASeqDegs[cortLayer] = compareGeneLists(degDictFCsnRNASeq[cortLayer]['Gene_Name'], schizGeneList['sczgenenames'])
     
-writer = pd.ExcelWriter(os.path.join(derivatives, 'schiz_cort_DEG_lists.xlsx'))
+writer = pd.ExcelWriter(os.path.join(derivatives, 'schiz_cort_snRNASeq_DEG_lists.xlsx'))
 
-for cortLayer in degDict.keys():
-    schizInCortDegList = pd.DataFrame(schizInCortDegs[cortLayer])
+for cortLayer in degDictFCsnRNASeq.keys():
+    schizInCortDegList = pd.DataFrame(schizInCortsnRNASeqDegs[cortLayer], columns=['Gene Name'])
     schizInCortDegList.to_excel(writer, sheet_name=cortLayer, index=False)
 writer.close()
 #%% import and check bipolar gene list
 bpGeneList = pd.read_excel(os.path.join(geneListLocation, 'NIHMS1687813-supplement-Supplementary_Tables.xlsx'), sheet_name='Table S4', skiprows=1)
 
 bpGenesInHippDegs = compareGeneLists(hippDEGs['Gene Name'], bpGeneList['Gene '])
-bpDF = pd.DataFrame(bpGenesInHippDegs)
-bpDF.to_excel(os.path.join(derivatives, 'bp_hipp_DEG_lists.xlsx'))
+bpHippDF = pd.DataFrame(bpGenesInHippDegs, columns=['Gene Name'])
+bpHippDF.to_excel(os.path.join(derivatives, 'bp_hipp_bulkRNASeq_DEG_lists.xlsx'), index=False)
 
-bpInCortDegs = dict.fromkeys(degDict.keys())
-for cortLayer in degDict.keys():
-    bpInCortDegs[cortLayer] = compareGeneLists(degDict[cortLayer]['Gene_Name'], bpGeneList['Gene '])
+bpGenesInCortDegs = compareGeneLists(cortDEGs['Gene_Name'], bpGeneList['Gene '])
+bpCortDF = pd.DataFrame(bpGenesInCortDegs, columns=['Gene Name'])
+bpCortDF.to_excel(os.path.join(derivatives, 'bp_cort_bulkRNASeq_DEG_lists.xlsx'), index=False)
+
+bpInCortsnRNASeqDegs = dict.fromkeys(degDictFCsnRNASeq.keys())
+for cortLayer in degDictFCsnRNASeq.keys():
+    bpInCortsnRNASeqDegs[cortLayer] = compareGeneLists(degDictFCsnRNASeq[cortLayer]['Gene_Name'], bpGeneList['Gene '])
     
-writer = pd.ExcelWriter(os.path.join(derivatives, 'bp_cort_DEG_lists.xlsx'))
+writer = pd.ExcelWriter(os.path.join(derivatives, 'bp_cort_snRNASeq_DEG_lists.xlsx'))
 
-for cortLayer in degDict.keys():
-    bpInCortDegList = pd.DataFrame(bpInCortDegs[cortLayer])
+for cortLayer in degDictFCsnRNASeq.keys():
+    bpInCortDegList = pd.DataFrame(bpInCortsnRNASeqDegs[cortLayer], columns=['Gene Name'])
     bpInCortDegList.to_excel(writer, sheet_name=cortLayer, index=False)
 writer.close()
 #%% import and check MDD gene list
 mddGeneList = pd.read_excel(os.path.join(geneListLocation, '41588_2026_2638_MOESM4_ESM.xlsx'), sheet_name='Supplementary Table 1')
 
 mddGenesInHippDegs = compareGeneLists(hippDEGs['Gene Name'], mddGeneList['Risk gene'])
-mddDF = pd.DataFrame(mddGenesInHippDegs)
-mddDF.to_excel(os.path.join(derivatives, 'mdd_hipp_DEG_lists.xlsx'))
+mddHippDF = pd.DataFrame(mddGenesInHippDegs, columns=['Gene Name'])
+mddHippDF.to_excel(os.path.join(derivatives, 'mdd_hipp_bulkRNASeq_DEG_lists.xlsx'), index=False)
 
-mddInCortDegs = dict.fromkeys(degDict.keys())
-for cortLayer in degDict.keys():
-    mddInCortDegs[cortLayer] = compareGeneLists(degDict[cortLayer]['Gene_Name'], mddGeneList['Risk gene'])
+mddGenesInHippDegs = compareGeneLists(cortDEGs['Gene_Name'], mddGeneList['Risk gene'])
+mddCortDF = pd.DataFrame(mddGenesInHippDegs, columns=['Gene Name'])
+mddCortDF.to_excel(os.path.join(derivatives, 'mdd_cort_bulkRNASeq_DEG_lists.xlsx'), index=False)
+
+mddInCortsnRNASeqDegs = dict.fromkeys(degDictFCsnRNASeq.keys())
+for cortLayer in degDictFCsnRNASeq.keys():
+    mddInCortsnRNASeqDegs[cortLayer] = compareGeneLists(degDictFCsnRNASeq[cortLayer]['Gene_Name'], mddGeneList['Risk gene'])
     
-writer = pd.ExcelWriter(os.path.join(derivatives, 'mdd_cort_DEG_lists.xlsx'))
+writer = pd.ExcelWriter(os.path.join(derivatives, 'mdd_cort_snRNASeq_DEG_lists.xlsx'))
 
-for cortLayer in degDict.keys():
-    mddInCortDegList = pd.DataFrame(mddInCortDegs[cortLayer])
+for cortLayer in degDictFCsnRNASeq.keys():
+    mddInCortDegList = pd.DataFrame(mddInCortsnRNASeqDegs[cortLayer], columns=['Gene Name'])
     mddInCortDegList.to_excel(writer, sheet_name=cortLayer, index=False)
 writer.close()
