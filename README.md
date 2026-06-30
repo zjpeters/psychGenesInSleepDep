@@ -1,6 +1,20 @@
 # Overview
 
-This repository uses two sources of differentially expressed genes in the mouse hippocampus and frontal cortex to look for overlap with lists of genes known to be related to the following psychiatric disorders: autism, schizophrenia, bipolar disorder, and major depressive disorder. 
+This repository uses two sources of differentially expressed genes (DEGs) in the mouse hippocampus and frontal cortex to look for overlap with lists of genes known to be related to the following psychiatric disorders: autism, schizophrenia, bipolar disorder, and major depressive disorder. 
+
+# Analysis performed
+
+- A list of genes associated one of the disorders (e.g. bipolar disorder) is compared to a list of DEGs (e.g. acute SD hippocampal bulk RNASeq DEGs) to look for overlap between the two lists and a spreadsheet of the overlapping genes is generated and output into the `derivatives` folder
+
+- The hypergeometric distribution is calculated using the following assumptions (variable letters used are from wikipedia for hypergeometric mean, not from scipy): 
+
+    - $N$, population size, i.e. total number of genes in bulk analysis
+
+    - $K$, number of total successes in dataset, i.e. the number of genes in disease list
+
+    - $n$, quantity drawn with each trial, i.e. the number of genes in the DEG list
+
+    - $k$, number of observed successes, i.e. overlap between disease and DEG lists
 
 # DEG data sources
 
@@ -107,6 +121,10 @@ https://www.nature.com/articles/s41588-026-02638-3
 - For any risk or predictive test for a child or adult, investigators must acknowledge that this is an experimental use of these data and that essentially all psychiatric disorders have important non-genetic etiological components; 
 - Investigators will cite the appropriate PGC publications in any presentations, publications, or communications or publications arising from use of these data; and 
 - When these data are made available prior to publication, investigators agree to respect and not to compete with the scientific priorities of the PGC team according to the Fort Lauderdale principles. 
+
+## [AGORA Alzheimer's Gene List](https://agora.adknowledgeportal.org/genes/nominated-targets)
+
+
 
 # Future directions
 
