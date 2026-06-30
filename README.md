@@ -92,6 +92,14 @@ Bipolar disorder list
 
 - Sheet named "Table S4" contains list of 161 significant genes
 
+## [Genomics yields biological and phenotypic insights into bipolar disorder](https://www.nature.com/articles/s41586-024-08468-9)
+
+- Looked into gene list from supplementary table `rawdata/geneLists/41586_2024_8468_MOESM4_ESM.xlsx` sheet S31
+
+
+
+- https://pgc.unc.edu/for-researchers/download-results/
+
 ## Major depressive disorder list
 
 - Filename: 41588_2026_2638_MOESM4_ESM.xlsx
@@ -104,9 +112,6 @@ https://www.nature.com/articles/s41588-026-02638-3
 
 - Sheet named "Supplementary Table 1" contains list of 112 risk genes
 
-## [Genomics yields biological and phenotypic insights into bipolar disorder](https://www.nature.com/articles/s41586-024-08468-9)
-
-- https://pgc.unc.edu/for-researchers/download-results/
 
 ### Data Access Terms and Conditions
 
