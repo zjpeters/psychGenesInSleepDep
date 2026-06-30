@@ -170,5 +170,11 @@ writer.close()
 #%% loop over disease gene lists and perform gene list comparisons
 
 for disease in diseaseGeneLists.keys():
+    print(f'{disease}, hippocampus')
     diseaseGeneLists[disease]['Shared_genes_hipp'], diseaseGeneLists[disease]['p-value_hipp'] = compareGeneLists(hippDEGs['Gene Name'], diseaseGeneLists[disease]['Gene_name'])
+    hippDF = pd.DataFrame(diseaseGeneLists[disease]['Shared_genes_hipp'], columns=['Gene Name'])
+    hippDF.to_excel(os.path.join(derivatives, 'hippocampus_bulk', f'{disease}_hipp_bulkRNASeq_DEG_lists.xlsx'), index=False)
+    print(f'{disease}, frontal cortex')
     diseaseGeneLists[disease]['Shared_genes_cort'], diseaseGeneLists[disease]['p-value_cort'] = compareGeneLists(cortDEGs['Gene_Name'], diseaseGeneLists[disease]['Gene_name'])
+    cortDF = pd.DataFrame(diseaseGeneLists[disease]['Shared_genes_cort'], columns=['Gene Name'])
+    cortDF.to_excel(os.path.join(derivatives, 'frontal_cortical_bulk', f'{disease}_cort_bulkRNASeq_DEG_lists.xlsx'), index=False)
