@@ -80,7 +80,9 @@ http://resource.psychencode.org/
 
 - 321 genes
 
-## [Genome-wide association study of over 40,000 bipolar disorder cases provides new insights into the underlying biology](https://pmc.ncbi.nlm.nih.gov/articles/PMC8192451/)
+## Bipolar_34002096
+
+- [Genome-wide association study of over 40,000 bipolar disorder cases provides new insights into the underlying biology](https://pmc.ncbi.nlm.nih.gov/articles/PMC8192451/)
 
 Bipolar disorder list
 
@@ -92,44 +94,35 @@ Bipolar disorder list
 
 - Sheet named "Table S4" contains list of 161 significant genes
 
-## [Genomics yields biological and phenotypic insights into bipolar disorder](https://www.nature.com/articles/s41586-024-08468-9)
+## Bipolar_39843750
+
+- [Genomics yields biological and phenotypic insights into bipolar disorder](https://www.nature.com/articles/s41586-024-08468-9)
 
 - Looked into gene list from supplementary table `rawdata/geneLists/41586_2024_8468_MOESM4_ESM.xlsx` sheet S31
 
-
-
 - https://pgc.unc.edu/for-researchers/download-results/
 
-## Major depressive disorder list
+## MDD_42271086, Major depressive disorder list
+
+- [Linking GWAS risk genes to transcriptional features of major depressive disorder via in vivo Perturb-seq](https://www.nature.com/articles/s41588-026-02638-3)
 
 - Filename: 41588_2026_2638_MOESM4_ESM.xlsx
 
 - Gene list curated from Zhang, et al 2026:
 
-https://www.nature.com/articles/s41588-026-02638-3
-
 - Uses a list of MDD risk genes to look at in vivo functions in mice
 
 - Sheet named "Supplementary Table 1" contains list of 112 risk genes
 
-
-### Data Access Terms and Conditions
-
-- The Psychiatric Genomics Consortium (PGC) provides summary statistics from its genomic analyses (“these data”) in order to increase our knowledge of the fundamental basis of major psychiatric disorders. Use of these data is NOT unrestricted. If you obtain or use these data in any way, you and your collaborators (“investigators”) agree to abide by all of the following conditions:
-
-- Investigators acknowledge that these data are provided on an “as-is” basis, without warranty of any type, expressed or implied, including but not limited to any warranty as to their performance, merchantability, or fitness for any particular purpose; 
-- Investigators will not cross-post these data or make them available elsewhere – this website is the definitive source for these data; 
-- Investigators will never attempt to identify any participant who contributed to these data;
-- Investigators will only use these data for scientific research – any commercial or for-profit use of these data requires permission in advance from the PGC Data Access Committee; This form is for COMMERCIAL OR FOR-PROFIT USE ONLY: Permission Request for Commercial or For-Profit use only; All other requests, use the "I agree to the PGC Terms and Conditions" link below; 
-- Investigators are responsible for ensuring that their use of these data is always in compliance with all local, state, national, and institutional regulations/policies regarding human subjects, genetics research, and these data – for example, these links are for the US and UK standards; 
-- Investigators may not use these data to develop any type of risk or predictive test for an unborn individual; 
-- For any risk or predictive test for a child or adult, investigators must acknowledge that this is an experimental use of these data and that essentially all psychiatric disorders have important non-genetic etiological components; 
-- Investigators will cite the appropriate PGC publications in any presentations, publications, or communications or publications arising from use of these data; and 
-- When these data are made available prior to publication, investigators agree to respect and not to compete with the scientific priorities of the PGC team according to the Fort Lauderdale principles. 
-
 ## [AGORA Alzheimer's Gene List](https://agora.adknowledgeportal.org/genes/nominated-targets)
 
+- Spreadsheet stored in `rawdata/geneLists/agora_ad_gene-list.csv`
 
+- column headers: [Gene Symbol	Nominations	Year First Nominated	Nominating Teams	Cohort Study	Program	Input Data	Pharos Class]
+
+- From agora website:
+
+    "More than 900 targets have been contributed to Agora. These nominations have been provided by researchers from the National Institute on Aging's Accelerating Medicines Partnership in Alzheimer's Disease (AMP-AD) consortium and Target Enablement to Accelerate Therapy Development for Alzheimer's Disease (TREAT-AD) centers, as well as other research teams. The focus of Agora is to host targets that have been identified using computational analyses of high-dimensional genomic, proteomic and/or metabolomic data derived from human samples. These nominations have been released early in the research discovery cycle in order to facilitate evaluation by the broader research community."
 
 # Future directions
 
@@ -141,5 +134,5 @@ https://www.nature.com/articles/s41588-026-02638-3
 
 - [Alzheimer's disease gene list](https://agora.adknowledgeportal.org/)
 
-    - column headers: [Gene Symbol	Nominations	Year First Nominated	Nominating Teams	Cohort Study	Program	Input Data	Pharos Class]
+    
     
